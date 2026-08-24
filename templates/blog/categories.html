@@ -4,7 +4,39 @@ Categories
 {% endblock %}
 {% block content %}
 <h1>Categories</h1>
+    <form action="{% url 'category_create' %}" method="post">
+        {% csrf_token %}
+        <input type="text" name="name" placeholder="Category Name">
+        <button type="submit">Create</button>
+    </form>
     {% for category in categories %}
-        <p>{{ category.name }}</p>
+        <p>
+        <a href="{% url 'category_detail' category.id %}">
+            {{ category.name }}
+            </a>
+        </p>
+        <form action="{% url 'category_update' category.id %}" 
+              method="post">
+            {% csrf_token %}
+            <input type="text" name="name" 
+                   value="{{ category.name }}">
+            <button type="submit">Update</button>
+        </form>
+        <form action = "{% url 'category_delete' %}" method="post">
+            {% csrf_token %}
+            <input type="hidden" name="category_id" 
+                   value="{{ category.id }}">
+            <button type="submit">Delete</button>
+        </form>
+        
+        {% for post in category.post_set.all %}
+            <a href="{% url 'post_detail' post.id %}">
+            <p>{{ post.title }}</p>
+            </a>
+            <p>Likes: {{ post.likes.count }}</p> <!-- many to many field -->
+            {% for comment in post.comment_set.all %}
+                <p>{{ comment.body }}</p>
+            {% endfor %}
+        {% endfor %}
     {% endfor %}
 {% endblock %}
