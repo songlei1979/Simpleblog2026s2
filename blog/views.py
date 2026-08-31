@@ -1,5 +1,6 @@
 from django.contrib.auth.models import User
 from django.shortcuts import render, redirect
+from django.views.generic import TemplateView, ListView, DetailView, CreateView
 
 from blog.models import Category, Post
 
@@ -78,3 +79,38 @@ def post_create(request):
                                snippet=snippet,
                                category=category)
     return redirect('posts')
+
+
+class PostList(TemplateView):
+    template_name = "blog/posts_template_view.html"
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['posts'] = Post.objects.all()
+        context['categories'] = Category.objects.all()
+        context['users'] = User.objects.all()
+        print(context)
+        print(type(context))
+        return context
+
+class PostList_Generic(ListView):
+    model = Post
+    template_name = "blog/posts_list_view.html"
+
+class PostDetail_Generic(DetailView):
+    model = Post
+    template_name = "blog/post_detail_view.html"
+
+class PostCreateView(CreateView):
+    model = Post
+    template_name = "blog/post_create_view.html"
+    success_url = "post_list_view"
+    fields = ['title',
+              'header_image',
+              'title_tag',
+              'author',
+              'body',
+              'snippet',
+              'category']
+
+
