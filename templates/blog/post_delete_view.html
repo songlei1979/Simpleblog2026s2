@@ -1,0 +1,11 @@
+{% extends "../base.html" %}
+{% block title %}
+    Post Delete View
+{% endblock %}
+{% block content %}
+    <p>Post Delete View</p>
+    <form method="post">
+        {% csrf_token %}
+        <button class="btn btn-danger" type="submit">Delete</button>
+    </form>
+{% endblock %}

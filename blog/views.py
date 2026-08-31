@@ -1,7 +1,8 @@
 from django.contrib.auth.models import User
 from django.shortcuts import render, redirect
-from django.views.generic import TemplateView, ListView, DetailView, CreateView
+from django.views.generic import TemplateView, ListView, DetailView, CreateView, UpdateView, DeleteView
 
+from blog.forms import PostCreateForm
 from blog.models import Category, Post
 
 
@@ -104,13 +105,20 @@ class PostDetail_Generic(DetailView):
 class PostCreateView(CreateView):
     model = Post
     template_name = "blog/post_create_view.html"
-    success_url = "post_list_view"
-    fields = ['title',
-              'header_image',
-              'title_tag',
-              'author',
-              'body',
-              'snippet',
-              'category']
+    success_url = "/post_list_view"
+    form_class = PostCreateForm
+
+
+class PostUpdateView(UpdateView):
+    model = Post
+    template_name = "blog/post_update_view.html"
+    success_url = "/post_list_view"
+    form_class = PostCreateForm
+
+class PostDeleteView(DeleteView):
+    model = Post
+    template_name = "blog/post_delete_view.html"
+    success_url = "/post_list_view"
+
 
 
