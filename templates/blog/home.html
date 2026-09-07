@@ -4,5 +4,9 @@
 {% endblock %}
 {% block content %}
     <h1>Home</h1>
+    {% if user.is_authenticated %}
+        <p>Welcome {{ user.username }}</p>
+        <p>Group: {{ user.groups.all }}</p>
+    {% endif %}
 {% endblock %}
 

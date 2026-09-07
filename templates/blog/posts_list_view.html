@@ -8,13 +8,17 @@
         {% for post in object_list %}
             <a href="{% url 'post_detail_view' post.pk %}">
                 {{ post.title }}
-            </a> 
+            </a>
+            {% if user.is_authenticated  %}
+                {% if user == post.author or "editor" in user.groups.all|join:"," %}
             <a class="btn btn-primary" href="{% url 'post_update_view' post.pk %}">
                 Update
             </a>
             <a class="btn btn-danger" href="{% url 'post_delete_view' post.pk %}">
                 Delete
             </a>
+                {% endif %}
+            {% endif %}
             <br>
         {% endfor %}
     </p>
