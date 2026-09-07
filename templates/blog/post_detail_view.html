@@ -7,10 +7,34 @@
     <p>
         {{ object.title }}
     </p>
+    {% if object.header_image %}
+        <img src="{{ object.header_image.url }}"
+             alt="{{ object.title }}">
+
+    {% endif %}
     <p>
-        {{ object.body }}
+        {{ object.body | safe }}
     </p>
     <p>
         {{ object.snippet }}
+    </p>
+    <p>
+        Likes: {{ object.likes.count }}
+        <br>
+    <form action="{% url 'like_dislike' %}"
+          method="post">
+        {% csrf_token %}
+        <input type="hidden" name="post_id"
+               value="{{ object.id }}">
+        {% if user.is_authenticated %}
+            {% if user in post.likes.all %}
+                <button type="submit">Dislike</button>
+            {% else %}
+                <button type="submit">Like</button>
+            {% endif %}
+        {% else %}
+            <a href="{% url 'login' %}">Login to like</a>
+        {% endif %}
+    </form>
     </p>
 {% endblock %}

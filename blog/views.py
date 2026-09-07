@@ -120,6 +120,7 @@ class PostDeleteView(DeleteView):
     template_name = "blog/post_delete_view.html"
     success_url = "/post_list_view"
 
+
 def register(request):
     username = request.POST['username']
     password = request.POST['password']
@@ -133,5 +134,14 @@ def register(request):
 
 def register_view(request):
     return render(request, 'blog/register.html')
+
+def like_dislike(request):
+    login_user = request.user
+    post = Post.objects.get(id=request.POST['post_id'])
+    if login_user in post.likes.all():
+        post.likes.remove(login_user)
+    else:
+        post.likes.add(login_user)
+    return redirect('post_detail_view', pk=post.id)
 
 

@@ -1,5 +1,7 @@
 asgiref==3.12.1
 Django==6.1
+django-ckeditor==6.7.3
+django-js-asset==4.1.0
 gunicorn==26.0.0
 load-dotenv==0.1.0
 packaging==26.3
