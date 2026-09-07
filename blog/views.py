@@ -120,5 +120,18 @@ class PostDeleteView(DeleteView):
     template_name = "blog/post_delete_view.html"
     success_url = "/post_list_view"
 
+def register(request):
+    username = request.POST['username']
+    password = request.POST['password']
+    email = request.POST['email']
+    user = User.objects.create_user(username=username, email=email)
+    user.set_password(password)
+    user.groups.add(1)
+    user.save()
+    return redirect('login')
+
+
+def register_view(request):
+    return render(request, 'blog/register.html')
 
 
